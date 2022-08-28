@@ -10,7 +10,7 @@ In this section, we detail everything you need to know about contributing to thi
 
 ## **I don't want to contribute, I have a question**
 
-Please don't raise an issue to ask a question. You can ask questions on our [forum](http://forum.flutterwave.com) or developer [slack](https://bit.ly/34Vkzcg). We have an army of Engineers on hand to answer your questions there.
+Please don't raise an issue to ask a question. You can ask questions on our [email](mailto:lkibirige@asanty.africa). We have an army of Engineers on hand to answer your questions there.
 
 ## How can I contribute?
 
@@ -77,8 +77,8 @@ $ git commit -m "A brief summary of the commit
 
 > 💡 For your pull request to be reviewed, you need to meet the requirements above. We may ask you to complete additional tests, or other changes before your pull request can be ultimately accepted.
 
-We encourage you to contribute and help make the library better for the community. Got questions? send us a [message](https://bit.ly/34Vkzcg).
+We encourage you to contribute and help make the library better for the community.
 
 Thank you.
 
-The Flutterwave team 🦋
+Junior Lawrence Kibirige 🦋

@@ -1,7 +1,8 @@
+import 'dart:async';
+
+import 'package:dpo_standard/models/responses/charge_response.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterwave_standard/flutterwave.dart';
-import 'package:flutterwave_standard/models/subaccount.dart';
-import 'package:uuid/uuid.dart';
+import 'package:dpo_standard/dpo.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,8 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Standard Demo',
-      home: MyHomePage('Flutterwave Standard'),
+      title: 'DPO Standard Demo',
+      home: MyHomePage('DPO Standard'),
     );
   }
 }
@@ -28,22 +29,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final formKey = GlobalKey<FormState>();
-  final amountController = TextEditingController();
-  final currencyController = TextEditingController();
-  final narrationController = TextEditingController();
-  final publicKeyController = TextEditingController();
-  final encryptionKeyController = TextEditingController();
-  final emailController = TextEditingController();
-  final phoneNumberController = TextEditingController();
+  final urlController = TextEditingController();
 
-  String selectedCurrency = "";
-
-  bool isTestMode = true;
-  final pbk = "FLWPUBK_TEST";
+  final url =
+      "https://secure.3gdirectpay.com/payv3.php?ID=E7045C50-E58C-492E-BB08-2A765C97F913";
 
   @override
   Widget build(BuildContext context) {
-    this.currencyController.text = this.selectedCurrency;
+    this.urlController.text = this.url;
 
     return Scaffold(
       appBar: AppBar(
@@ -59,101 +52,26 @@ class _MyHomePageState extends State<MyHomePage> {
               Container(
                 margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
                 child: TextFormField(
-                  controller: this.amountController,
+                  controller: this.urlController,
                   textInputAction: TextInputAction.next,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.text,
                   style: TextStyle(color: Colors.black),
-                  decoration: InputDecoration(hintText: "Amount"),
+                  decoration: InputDecoration(hintText: "DPO URL"),
                   validator: (value) =>
-                      value.isNotEmpty ? null : "Amount is required",
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
-                child: TextFormField(
-                  controller: this.currencyController,
-                  textInputAction: TextInputAction.next,
-                  style: TextStyle(color: Colors.black),
-                  readOnly: true,
-                  onTap: this._openBottomSheet,
-                  decoration: InputDecoration(
-                    hintText: "Currency",
-                  ),
-                  validator: (value) =>
-                      value.isNotEmpty ? null : "Currency is required",
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
-                child: TextFormField(
-                  controller: this.publicKeyController,
-                  textInputAction: TextInputAction.next,
-                  style: TextStyle(color: Colors.black),
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintText: "Public Key",
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
-                child: TextFormField(
-                  controller: this.encryptionKeyController,
-                  textInputAction: TextInputAction.next,
-                  style: TextStyle(color: Colors.black),
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintText: "Encryption Key",
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
-                child: TextFormField(
-                  controller: this.emailController,
-                  textInputAction: TextInputAction.next,
-                  style: TextStyle(color: Colors.black),
-                  decoration: InputDecoration(
-                    hintText: "Email",
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
-                child: TextFormField(
-                  controller: this.phoneNumberController,
-                  textInputAction: TextInputAction.next,
-                  style: TextStyle(color: Colors.black),
-                  decoration: InputDecoration(
-                    hintText: "Phone Number",
-                  ),
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
-                child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Use Debug"),
-                    Switch(
-                      onChanged: (value) => {
-                        setState(() {
-                          isTestMode = value;
-                        })
-                      },
-                      value: this.isTestMode,
-                    ),
-                  ],
+                      value.isNotEmpty ? null : "DPO Url is required",
                 ),
               ),
               Container(
                 width: double.infinity,
                 height: 50,
                 margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
-                child: RaisedButton(
+                child: ElevatedButton(
                   onPressed: this._onPressed,
-                  color: Colors.blue,
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateColor.resolveWith(
+                      (states) => Colors.blue,
+                    ),
+                  ),
                   child: Text(
                     "Make Payment",
                     style: TextStyle(color: Colors.white),
@@ -174,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _handlePaymentInitialization() async {
-    final style = FlutterwaveStyle(
+    final style = DPOStyle(
       appBarText: "My Standard Blue",
       buttonColor: Color(0xffd0ebff),
       buttonTextStyle: TextStyle(
@@ -191,101 +109,35 @@ class _MyHomePageState extends State<MyHomePage> {
         fontSize: 18,
       ),
       mainBackgroundColor: Colors.indigo,
-      mainTextStyle: TextStyle(
-        color: Colors.indigo,
-        fontSize: 19,
-        letterSpacing: 2
-      ),
+      mainTextStyle:
+          TextStyle(color: Colors.indigo, fontSize: 19, letterSpacing: 2),
       dialogBackgroundColor: Colors.greenAccent,
       appBarIcon: Icon(Icons.message, color: Colors.purple),
-      buttonText: "Pay $selectedCurrency${amountController.text}",
+      buttonText: "Proceed",
       appBarTitleTextStyle: TextStyle(
         color: Colors.purpleAccent,
         fontSize: 18,
       ),
     );
 
-    final Customer customer = Customer(
-        name: "FLW Developer",
-        phoneNumber: this.phoneNumberController.text ?? "12345678",
-        email: "customer@customer.com");
-    
-    final subAccounts = [
-      SubAccount(id: "RS_1A3278129B808CB588B53A14608169AD", transactionChargeType: "flat", transactionPercentage: 25),
-      SubAccount(id: "RS_C7C265B8E4B16C2D472475D7F9F4426A", transactionChargeType: "flat", transactionPercentage: 50)
-    ];
+    final DPO flutterwave = DPO(
+      context: context,
+      style: style,
+      isTestMode: false,
+      paymentUrl: this.urlController.text,
+    );
 
-    final Flutterwave flutterwave = Flutterwave(
-        context: context,
-        style: style,
-        publicKey: this.publicKeyController.text.trim().isEmpty
-            ? this.getPublicKey()
-            : this.publicKeyController.text.trim(),
-        currency: this.selectedCurrency,
-        redirectUrl: "https://google.com",
-        txRef: Uuid().v1(),
-        amount: this.amountController.text.toString().trim(),
-        customer: customer,
-        // subAccounts: subAccounts,
-        paymentOptions: "card, payattitude, barter",
-        customization: Customization(title: "Test Payment"),
-        isTestMode: false);
     final ChargeResponse response = await flutterwave.charge();
     if (response != null) {
       this.showLoading(response.status);
       print("${response.toJson()}");
     } else {
+      print("${response.toJson()}");
       this.showLoading("No Response!");
+      Timer(const Duration(seconds: 5), () {
+        Navigator.of(this.context).pop();
+      });
     }
-  }
-
-  String getPublicKey() {
-    if (isTestMode) return "FLWPUBK_TEST-895362a74986153380262d89bfdc9b8a-X";
-      // "FLWPUBK_TEST-02b9b5fc6406bd4a41c3ff141cc45e93-X";
-    return "FLWPUBK-aa4cd0b443404147d2d8229a37694b00-X";
-  }
-
-  void _openBottomSheet() {
-    showModalBottomSheet(
-        context: this.context,
-        builder: (context) {
-          return this._getCurrency();
-        });
-  }
-
-  Widget _getCurrency() {
-    final currencies = ["NGN", "RWF", "UGX", "KES", "ZAR", "USD", "GHS", "TZS"];
-    return Container(
-      height: 250,
-      margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-      color: Colors.white,
-      child: ListView(
-        children: currencies
-            .map((currency) => ListTile(
-                  onTap: () => {this._handleCurrencyTap(currency)},
-                  title: Column(
-                    children: [
-                      Text(
-                        currency,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      SizedBox(height: 4),
-                      Divider(height: 1)
-                    ],
-                  ),
-                ))
-            .toList(),
-      ),
-    );
-  }
-
-  _handleCurrencyTap(String currency) {
-    this.setState(() {
-      this.selectedCurrency = currency;
-      this.currencyController.text = currency;
-    });
-    Navigator.pop(this.context);
   }
 
   Future<void> showLoading(String message) {

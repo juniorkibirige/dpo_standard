@@ -1,22 +1,24 @@
+import 'package:dpo_standard/core/transaction_status.dart';
+import 'package:dpo_standard/models/responses/charge_response.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterwave_standard/core/TransactionCallBack.dart';
-import 'package:flutterwave_standard/models/requests/standard_request.dart';
-import 'package:flutterwave_standard/models/responses/charge_response.dart';
-import 'package:flutterwave_standard/core/navigation_controller.dart';
-import 'package:flutterwave_standard/view/view_utils.dart';
+import 'package:dpo_standard/core/TransactionCallBack.dart';
+import 'package:dpo_standard/core/navigation_controller.dart';
+import 'package:dpo_standard/view/view_utils.dart';
 import 'package:http/http.dart';
 
-import 'flutterwave_style.dart';
+import 'dpo_style.dart';
 
 class PaymentWidget extends StatefulWidget {
-  final FlutterwaveStyle style;
-  final StandardRequest request;
+  final DPOStyle style;
+  final String requestUrl;
   final BuildContext mainContext;
 
-  BuildContext? loadingDialogContext;
-  SnackBar? snackBar;
-
-  PaymentWidget({required this.request, required this.style, required this.mainContext});
+  PaymentWidget({
+    required this.requestUrl,
+    required this.style,
+    required this.mainContext,
+  });
 
   @override
   State<StatefulWidget> createState() => _PaymentState();
@@ -39,7 +41,7 @@ class _PaymentState extends State<PaymentWidget>
     controller = NavigationController(Client(), widget.style, this);
     return MaterialApp(
       navigatorKey: _navigatorKey,
-      debugShowCheckedModeBanner: widget.request.isTestMode,
+      debugShowCheckedModeBanner: kDebugMode,
       home: Scaffold(
         backgroundColor: widget.style.getMainBackgroundColor(),
         appBar: FlutterwaveViewUtils.appBar(
@@ -58,7 +60,7 @@ class _PaymentState extends State<PaymentWidget>
               autofocus: true,
               onPressed: _handleButtonClicked,
               style: ElevatedButton.styleFrom(
-                  primary: widget.style.getButtonColor(),
+                  foregroundColor: widget.style.getButtonColor(),
                   textStyle: widget.style.getButtonTextStyle()),
               child: Text(
                 widget.style.getButtonText(),
@@ -78,9 +80,8 @@ class _PaymentState extends State<PaymentWidget>
 
   void _handlePayment() async {
     try {
-      Navigator.of(widget.mainContext).pop(); // to remove confirmation dialog
       _toggleButtonActive(false);
-      controller.startTransaction(widget.request);
+      controller.startTransaction(widget.requestUrl);
       _toggleButtonActive(true);
     } catch (error) {
       _toggleButtonActive(true);
@@ -100,15 +101,7 @@ class _PaymentState extends State<PaymentWidget>
   }
 
   void _showConfirmDialog() {
-    FlutterwaveViewUtils.showConfirmPaymentModal(
-        widget.mainContext,
-        widget.request.currency,
-        widget.request.amount,
-        widget.style.getMainTextStyle(),
-        widget.style.getDialogBackgroundColor(),
-        widget.style.getDialogCancelTextStyle(),
-        widget.style.getDialogContinueTextStyle(),
-        _handlePayment);
+    _handlePayment();
   }
 
   @override
@@ -123,9 +116,22 @@ class _PaymentState extends State<PaymentWidget>
   }
 
   @override
-  onTransactionSuccess(String id, String txRef) {
+  onTransactionSuccess(
+    String id, {
+    String? cCDApproval,
+    String? pnrID,
+    String? transactionToken,
+    String? companyRef,
+  }) {
     final ChargeResponse chargeResponse = ChargeResponse(
-        status: "success", success: true, transactionId: id, txRef: txRef);
+      status: TransactionStatus.SUCCESSFUL,
+      success: true,
+      transactionId: id,
+      cCDApproval: cCDApproval,
+      pnrID: pnrID,
+      transactionToken: transactionToken,
+      companyRef: companyRef,
+    );
     Navigator.pop(this.widget.mainContext, chargeResponse);
   }
 }

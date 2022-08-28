@@ -1,17 +1,15 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutterwave_standard/flutterwave.dart';
+import 'package:dpo_standard/dpo.dart';
 
 main() {
-  group("Flutterwave Style should", () {
-
+  group("DPO Style should", () {
     final buttonTextStyle = TextStyle(
       color: Colors.deepOrangeAccent,
       fontSize: 16,
     );
 
-    var style = FlutterwaveStyle(
+    var style = DPOStyle(
       appBarText: "My Standard Blue",
       buttonColor: Color(0xffd0ebff),
       buttonTextStyle: buttonTextStyle,
@@ -25,11 +23,8 @@ main() {
         fontSize: 18,
       ),
       mainBackgroundColor: Colors.indigo,
-      mainTextStyle: TextStyle(
-          color: Colors.indigo,
-          fontSize: 19,
-          letterSpacing: 2
-      ),
+      mainTextStyle:
+          TextStyle(color: Colors.indigo, fontSize: 19, letterSpacing: 2),
       dialogBackgroundColor: Colors.greenAccent,
       appBarIcon: Icon(Icons.message, color: Colors.purple),
       buttonText: "Pay",
@@ -48,14 +43,12 @@ main() {
     });
 
     test("return default style properties if style properties are not set", () {
-      style = FlutterwaveStyle();
+      style = DPOStyle();
       expect(Colors.white, style.getDialogBackgroundColor());
-      expect("Flutterwave", style.getAppBarText());
+      expect("DPO", style.getAppBarText());
       expect(Colors.white, style.getMainBackgroundColor());
       expect("Make Payment", style.getButtonText());
       expect(Color(0xFFfff1d0), style.getAppBarColor());
     });
-
   });
-
 }

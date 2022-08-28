@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class FlutterwaveStyle {
+class DPOStyle {
   final String? appBarText;
   final Color? buttonColor;
   final TextStyle? buttonTextStyle;
@@ -14,7 +14,7 @@ class FlutterwaveStyle {
   final TextStyle? dialogContinueTextStyle;
   final String? buttonText;
 
-  FlutterwaveStyle(
+  DPOStyle(
       {this.buttonColor,
       this.buttonTextStyle,
       this.appBarText,
@@ -30,7 +30,7 @@ class FlutterwaveStyle {
 
   /// Returns app bar text text or default
   String getAppBarText() {
-    return appBarText ?? "Flutterwave";
+    return appBarText ?? "DPO";
   }
 
   /// Returns button color or default
@@ -85,7 +85,8 @@ class FlutterwaveStyle {
 
   /// Returns dialog's continue text style or default
   TextStyle getDialogContinueTextStyle() {
-    return dialogContinueTextStyle ?? TextStyle(fontSize: 18, color: Colors.blue);
+    return dialogContinueTextStyle ??
+        TextStyle(fontSize: 18, color: Colors.blue);
   }
 
   /// Returns button text or default
