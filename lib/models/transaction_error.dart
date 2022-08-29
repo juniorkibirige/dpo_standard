@@ -4,5 +4,5 @@ class TransactionError implements Exception {
   TransactionError(this.message);
 
   @override
-  String toString() => this.message;
+  String toString() => message;
 }

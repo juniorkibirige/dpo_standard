@@ -122,14 +122,14 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
 
-    final DPO flutterwave = DPO(
+    final DPO dpo = DPO(
       context: context,
       style: style,
       isTestMode: false,
       paymentUrl: urlController.text,
     );
 
-    final ChargeResponse response = await flutterwave.charge();
+    final ChargeResponse response = await dpo.charge();
     if (response != null) {
       showLoading(response.status);
       print("${response.toJson()}");

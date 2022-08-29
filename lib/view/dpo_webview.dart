@@ -1,6 +1,6 @@
 import 'package:dpo_standard/core/transaction_status.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:dpo_standard/core/TransactionCallBack.dart';
+import 'package:dpo_standard/core/transaction_callback.dart';
 
 class DPOInAppBrowser extends InAppBrowser {
   final TransactionCallBack callBack;
@@ -23,7 +23,7 @@ class DPOInAppBrowser extends InAppBrowser {
     final hasRedirected = url?.host != "secure.3gdirectpay.com";
     if (hasRedirected && url != null) {
       hasCompletedProcessing = hasRedirected;
-      if (url.host.contains("asanty.africa"))
+      if (url.host.contains("asanty.africa")) {
         _processResponse(
           url,
           TransactionStatus.SUCCESSFUL,
@@ -33,7 +33,7 @@ class DPOInAppBrowser extends InAppBrowser {
           transToken,
           compRef,
         );
-      else {
+      } else {
         _processResponse(
           url,
           TransactionStatus.CANCELLED,

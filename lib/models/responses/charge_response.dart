@@ -20,8 +20,8 @@ class ChargeResponse {
   });
 
   ChargeResponse.fromJson(Map<String, dynamic> json) {
-    status = json['status'] == null ? TransactionStatus.ERROR : json['status'];
-    success = json['success'] == null ? false : json['success'];
+    status = json['status'] ?? TransactionStatus.ERROR;
+    success = json['success'] ?? false;
     transactionId = json['TransID'];
     cCDApproval = json['CCDapproval'];
     pnrID = json['PnrID'];
@@ -31,14 +31,14 @@ class ChargeResponse {
 
   /// Converts this instance to json
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['success'] = this.success;
-    data['TransID'] = this.transactionId;
-    data['CCDapproval'] = this.cCDApproval;
-    data['PnrID'] = this.pnrID;
-    data['TransactionToken'] = this.transactionToken;
-    data['CompanyRef'] = this.companyRef;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['success'] = success;
+    data['TransID'] = transactionId;
+    data['CCDapproval'] = cCDApproval;
+    data['PnrID'] = pnrID;
+    data['TransactionToken'] = transactionToken;
+    data['CompanyRef'] = companyRef;
     return data;
   }
 }

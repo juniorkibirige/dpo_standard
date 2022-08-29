@@ -1,6 +1,6 @@
 name: dpo_standard
 description: DPO's official library that wraps the standard implementation.
-version: 1.0.1+0
+version: 1.0.1+1
 homepage: https://github.com/juniorkibirige/dpo_standard
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -18,6 +18,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  lints: ^2.0.0
   mockito: ^5.0.15
 
 # The following section is specific to Flutter.

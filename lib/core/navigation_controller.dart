@@ -1,6 +1,6 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:dpo_standard/core/TransactionCallBack.dart';
-import 'package:dpo_standard/view/DPOWebView.dart';
+import 'package:dpo_standard/core/transaction_callback.dart';
+import 'package:dpo_standard/view/dpo_webview.dart';
 import 'package:dpo_standard/view/dpo_style.dart';
 import 'package:http/http.dart';
 
@@ -17,7 +17,7 @@ class NavigationController {
       openBrowser(paymentURL);
     } catch (error) {
       print("error is $error");
-      throw (error);
+      rethrow;
     }
   }
 

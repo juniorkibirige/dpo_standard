@@ -2,7 +2,7 @@ import 'package:dpo_standard/core/transaction_status.dart';
 import 'package:dpo_standard/models/responses/charge_response.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:dpo_standard/core/TransactionCallBack.dart';
+import 'package:dpo_standard/core/transaction_callback.dart';
 import 'package:dpo_standard/core/navigation_controller.dart';
 import 'package:dpo_standard/view/view_utils.dart';
 import 'package:http/http.dart';
@@ -60,7 +60,7 @@ class _PaymentState extends State<PaymentWidget>
               autofocus: true,
               onPressed: _handleButtonClicked,
               style: ElevatedButton.styleFrom(
-                  foregroundColor: widget.style.getButtonColor(),
+                  backgroundColor: widget.style.getButtonColor(),
                   textStyle: widget.style.getButtonTextStyle()),
               child: Text(
                 widget.style.getButtonText(),
@@ -132,6 +132,6 @@ class _PaymentState extends State<PaymentWidget>
       transactionToken: transactionToken,
       companyRef: companyRef,
     );
-    Navigator.pop(this.widget.mainContext, chargeResponse);
+    Navigator.pop(widget.mainContext, chargeResponse);
   }
 }

@@ -4,3 +4,5 @@
 * Resolved analysis issues
 ## [1.0.1+0] - August, 29 2022.
 * Resolving documentation issues
+## [1.0.1+1] - August, 29 2022.
+* Resolving analysis issues
