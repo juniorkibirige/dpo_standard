@@ -1,7 +1,7 @@
 name: dpo_standard
 description: DPO's official library that wraps the standard implementation.
 version: 1.0.1+1
-homepage: https://github.com/juniorkibirige/dpo_standard
+homepage: https://github.com/juniorkibirige/dpo_standard.git
 environment:
   sdk: ">=2.12.0 <3.0.0"
   flutter: ">=1.17.0"
