@@ -1,6 +1,6 @@
 
 <p align="center">  
-   <img title="Flutterwave" height="200" src="https://portal.dpopay.com/system/new-design/images/dpoaf.svg" width="50%"/>
+   <img title="DPO" height="200" src="https://portal.dpopay.com/system/new-design/images/dpoaf.svg" width="50%"/>
 </p>  
 
 # DPO Flutter SDK (Standard)
@@ -38,14 +38,14 @@ Available features include:
 
 ## Usage
 
-### Initializing a Flutterwave instance
+### Initializing a DPO instance
 
 To create an instance, you should call the DPO constructor. This constructor accepts a mandatory instance of the following:
 
 - The calling `Context`
 - `paymentUrl`
 
-It returns an instance of Flutterwave which we then call the async method `.charge()` on.
+It returns an instance of DPO which we then call the async method `.charge()` on.
 
     _handlePaymentInitialization() async { 
     final style = DPOStyle(
@@ -81,7 +81,7 @@ Calling the `.charge()` method returns a Future of `ChargeResponse` which we awa
 
 
 
-     final ChargeResponse response = await flutterwave.charge(); 
+     final ChargeResponse response = await dpo.charge(); 
      if (response != null) { 
 	     print(response.toJson()); 
 		 if(response.success) { 

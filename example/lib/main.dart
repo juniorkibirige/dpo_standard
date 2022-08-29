@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:async';
 
 import 'package:dpo_standard/models/responses/charge_response.dart';
@@ -36,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    this.urlController.text = this.url;
+    urlController.text = url;
 
     return Scaffold(
       appBar: AppBar(
@@ -46,13 +48,13 @@ class _MyHomePageState extends State<MyHomePage> {
         width: double.infinity,
         margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
         child: Form(
-          key: this.formKey,
+          key: formKey,
           child: ListView(
             children: <Widget>[
               Container(
                 margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
                 child: TextFormField(
-                  controller: this.urlController,
+                  controller: urlController,
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.text,
                   style: TextStyle(color: Colors.black),
@@ -66,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 50,
                 margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
                 child: ElevatedButton(
-                  onPressed: this._onPressed,
+                  onPressed: _onPressed,
                   style: ButtonStyle(
                     foregroundColor: MaterialStateColor.resolveWith(
                       (states) => Colors.blue,
@@ -86,8 +88,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _onPressed() {
-    if (this.formKey.currentState.validate()) {
-      this._handlePaymentInitialization();
+    if (formKey.currentState.validate()) {
+      _handlePaymentInitialization();
     }
   }
 
@@ -124,25 +126,25 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       style: style,
       isTestMode: false,
-      paymentUrl: this.urlController.text,
+      paymentUrl: urlController.text,
     );
 
     final ChargeResponse response = await flutterwave.charge();
     if (response != null) {
-      this.showLoading(response.status);
+      showLoading(response.status);
       print("${response.toJson()}");
     } else {
       print("${response.toJson()}");
-      this.showLoading("No Response!");
+      showLoading("No Response!");
       Timer(const Duration(seconds: 5), () {
-        Navigator.of(this.context).pop();
+        Navigator.of(context).pop();
       });
     }
   }
 
   Future<void> showLoading(String message) {
     return showDialog(
-      context: this.context,
+      context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
