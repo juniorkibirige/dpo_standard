@@ -1,6 +1,5 @@
-name: example
-description: A flutterwave example project.
-publish_to: none
+name: dpo_standard
+description: A dpo_standard example project.
 
 version: 1.0.0+1
 

@@ -6,3 +6,5 @@
 * Resolving documentation issues
 ## [1.0.1+1] - August, 29 2022.
 * Resolving analysis issues
+## [1.0.1+2] - August, 31 2022.
+* Hope you have a good week?
