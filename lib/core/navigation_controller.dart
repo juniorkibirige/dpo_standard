@@ -16,7 +16,6 @@ class NavigationController {
     try {
       openBrowser(paymentURL);
     } catch (error) {
-      print("error is $error");
       rethrow;
     }
   }
@@ -32,7 +31,6 @@ class NavigationController {
       ),
     );
 
-    await browser.openUrlRequest(
-        urlRequest: URLRequest(url: Uri.parse(url)), options: options);
+    await browser.openUrlRequest(urlRequest: URLRequest(url: Uri.parse(url)), options: options);
   }
 }

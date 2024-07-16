@@ -33,8 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final formKey = GlobalKey<FormState>();
   final urlController = TextEditingController();
 
-  final url =
-      "https://secure.3gdirectpay.com/payv3.php?ID=E7045C50-E58C-492E-BB08-2A765C97F913";
+  final url = "https://secure.3gdirectpay.com/payv3.php?ID=E7045C50-E58C-492E-BB08-2A765C97F913";
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   keyboardType: TextInputType.text,
                   style: TextStyle(color: Colors.black),
                   decoration: InputDecoration(hintText: "DPO URL"),
-                  validator: (value) =>
-                      value.isNotEmpty ? null : "DPO Url is required",
+                  validator: (value) => value?.isNotEmpty == true ? null : "DPO Url is required",
                 ),
               ),
               Container(
@@ -88,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _onPressed() {
-    if (formKey.currentState.validate()) {
+    if (formKey.currentState?.validate() == true) {
       _handlePaymentInitialization();
     }
   }
@@ -111,8 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
         fontSize: 18,
       ),
       mainBackgroundColor: Colors.indigo,
-      mainTextStyle:
-          TextStyle(color: Colors.indigo, fontSize: 19, letterSpacing: 2),
+      mainTextStyle: TextStyle(color: Colors.indigo, fontSize: 19, letterSpacing: 2),
       dialogBackgroundColor: Colors.greenAccent,
       appBarIcon: Icon(Icons.message, color: Colors.purple),
       buttonText: "Proceed",
@@ -130,11 +127,10 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     final ChargeResponse response = await dpo.charge();
+    // ignore: unnecessary_null_comparison
     if (response != null) {
-      showLoading(response.status);
-      print("${response.toJson()}");
+      showLoading(response.status ?? '');
     } else {
-      print("${response.toJson()}");
       showLoading("No Response!");
       Timer(const Duration(seconds: 5), () {
         Navigator.of(context).pop();
